@@ -1,0 +1,15 @@
+{
+  "name": "tax-calculator-wasm",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "tax_calculator_wasm_bg.wasm",
+    "tax_calculator_wasm.js",
+    "tax_calculator_wasm.d.ts"
+  ],
+  "main": "tax_calculator_wasm.js",
+  "types": "tax_calculator_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
