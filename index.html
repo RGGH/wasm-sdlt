@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Define character encoding and viewport settings -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Page title -->
-        <title>UK Stamp Duty Calculator</title>
-        <!-- CSS styles for the page -->
-        <style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Stamp Duty Calculator</title>
+    <style>
         body {
             font-family: Arial, sans-serif; /* Set font family */
-            background-color: #f7f7f7; /* Set background color */
-            color: #333; /* Set text color */
+            background-color: #4b0082; /* Dark purple */
+            color: white; /* Set text color */
             display: flex; /* Use flexbox layout */
             flex-direction: column; /* Arrange elements in a column */
             align-items: center; /* Center elements horizontally */
-            justify-content: center; /* Center elements vertically */
+            justify-content: flex-start; /* Start from the top */
             height: 100vh; /* Full viewport height */
             margin: 0; /* Remove default margin */
+            overflow: hidden; /* Hide overflow to remove scroll bars */
+        }
+        .header {
+            background-color: rgb(13, 110, 253); /* Updated to specified RGB color */
+            display: inline-block; /* Make header only as wide as the text */
+            padding: 10px; /* Padding for header */
+            margin-top: 15%; /* Push header down to top 15% */
         }
         h1 {
-            color: hsl(92, 99%, 29%); /* Rust color for heading */
+            color: #333; /* Dark text for heading */
+            margin: 0; /* Remove margin */
         }
         label, input, button {
             margin: 10px 0; /* Margin for form elements */
@@ -28,13 +33,17 @@
         input {
             padding: 8px; /* Padding inside input */
             font-size: 16px; /* Input font size */
-            border: 2px solid hsl(92, 99%, 29%);  /* Rust color border */
+            border: 2px solid #6c757d; /* Grey border */
             border-radius: 4px; /* Rounded corners */
+            background-color: #333; /* Dark background for input */
+            color: white; /* White text color */
+            width: 100%; /* Full width */
+            max-width: 300px; /* Maximum width */
         }
         button {
             padding: 10px 20px; /* Padding inside button */
             font-size: 16px; /* Button font size */
-            background-color: hsl(92, 99%, 29%);  /* Orange color background */
+            background-color: #6c757d; /* Grey color background */
             color: #fff; /* White text color */
             border: none; /* Remove border */
             border-radius: 4px; /* Rounded corners */
@@ -42,34 +51,44 @@
             transition: background-color 0.3s ease; /* Smooth background color transition */
         }
         button:hover {
-            background-color: #221913; /* Darker rust color on hover */
+            background-color: #221913; /* Darker grey color on hover */
         }
         #result {
             margin-top: 20px; /* Margin above result text */
             font-size: 18px; /* Result text font size */
-            color: hsl(92, 99%, 29%);  /* Orange color for result text */
+            color: white; /* White color for result text */
         }
-        </style>
-    </head>
-    <body>
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: #333; /* Grey footer */
+            color: #ccc; /* Light text */
+            padding: 10px; /* Padding for footer */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="header">
         <h1>🧛🏻‍♂️ Stamp Duty Land Tax 🧛🏻‍♂️</h1>
-        <!-- Label and input for income -->
-        <label for="income">Price:</label>
-        <input
-            type="number"
-            id="income"
-            name="income"
-            min="0"
-        >
-        <!-- Button to trigger tax calculation -->
-        <button id="calculateButton">Calculate UK Stamp Duty Tax</button>
-        <!-- Element to display the result -->
-        <p id="result"></p>
-        <!-- JavaScript module for WebAssembly interaction -->
-        <script type="module">
-        // import init, { calculate_sdlt } from "./pkg/tax_calculator_wasm.js";
-        import init, { calculate_sdlt } from "/wasm-sdlt/pkg/tax_calculator_wasm.js";
+    </div>
+    
+    <label for="income">Price:</label>
+    <input type="number" id="income" name="income" min="0">
+    <button id="calculateButton">Calculate UK Stamp Duty Tax</button>
+    <p id="result"></p>
 
+    <!-- Footer -->
+    <footer>
+        Credit: <a href="https://github.com/second-state/wasm-learning/blob/master/browser/hello/README.md" target="_blank" style="color: #ccc;">Wasm Learning Repo</a>
+        <br />
+        Check out: <a href="https://www.youtube.com/@learning_rust" target="_blank" style="color: #ccc;">Learning Rust on YouTube</a>
+    </footer>
+
+    <script type="module">
+        import init, { calculate_sdlt } from "/wasm-sdlt/pkg/tax_calculator_wasm.js";
 
         async function run() {
             await init(); // Initialize the WebAssembly module
@@ -84,6 +103,7 @@
         }
 
         run(); // Run the async function to set up event listener
-        </script>
-    </body>
+    </script>
+</body>
 </html>
+
