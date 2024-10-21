@@ -2,7 +2,7 @@
 # Build a simple web application using Rust and Web Assembly.
 
 # Create a Rust Project
-  `cargo new tax-calc-wasm
+  `cargo new tax-calc-wasm<br>
   `cd tax-calc-wasm
 
 # Step 2: Writing the Rust Code
