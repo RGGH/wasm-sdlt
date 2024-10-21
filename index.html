@@ -67,7 +67,9 @@
         <p id="result"></p>
         <!-- JavaScript module for WebAssembly interaction -->
         <script type="module">
-        import init, { calculate_sdlt } from "./pkg/tax_calculator_wasm.js";
+        // import init, { calculate_sdlt } from "./pkg/tax_calculator_wasm.js";
+        import init, { calculate_sdlt } from "/wasm-sdlt/pkg/tax_calculator_wasm.js";
+
 
         async function run() {
             await init(); // Initialize the WebAssembly module
