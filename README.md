@@ -1,4 +1,4 @@
-
+[![Rust](https://github.com/RGGH/wasm-sdlt/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/wasm-sdlt/actions/workflows/rust.yml)
 # Build a simple web application using Rust and Web Assembly.
 
 # Create a Rust Project
