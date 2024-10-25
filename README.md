@@ -6,9 +6,10 @@
   
   ```cd tax-calc-wasm```
 # Edit Cargo.toml
-  [lib]<br>
-  crate-type = ["cdylib", "rlib"]
-
+```
+[lib]
+crate-type = ["cdylib", "rlib"]
+```
 # Step 2: Writing the Rust Code
 Edit src/lib.rs to implement the tax calculation logic:
 ```rust
