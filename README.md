@@ -5,7 +5,11 @@
   ```cargo new tax-calc-wasm```
   
   ```cd tax-calc-wasm```
-# Edit Cargo.toml
+
+# Add wasm_bindgen crate
+```cargo add wasm-bindgen```
+
+# Edit Cargo.toml and add:
 ```
 [lib]
 crate-type = ["cdylib", "rlib"]
