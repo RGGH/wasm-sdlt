@@ -3,107 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Stamp Duty Calculator</title>
+    <title>WASM Stack Machine Demo</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            font-family: Arial, sans-serif; /* Set font family */
-            background-color: #4b0082; /* Dark purple */
-            color: white; /* Set text color */
-            display: flex; /* Use flexbox layout */
-            flex-direction: column; /* Arrange elements in a column */
-            align-items: center; /* Center elements horizontally */
-            justify-content: flex-start; /* Start from the top */
-            height: 100vh; /* Full viewport height */
-            margin: 0; /* Remove default margin */
-            overflow: hidden; /* Hide overflow to remove scroll bars */
-        }
-        .header {
-            background-color: rgb(13, 110, 253); /* Updated to specified RGB color */
-            display: inline-block; /* Make header only as wide as the text */
-            padding: 10px; /* Padding for header */
-            margin-top: 15%; /* Push header down to top 15% */
-        }
-        h1 {
-            color: #333; /* Dark text for heading */
-            margin: 0; /* Remove margin */
-        }
-        label, input, button {
-            margin: 10px 0; /* Margin for form elements */
-        }
-        input {
-            padding: 8px; /* Padding inside input */
-            font-size: 16px; /* Input font size */
-            border: 2px solid #6c757d; /* Grey border */
-            border-radius: 4px; /* Rounded corners */
-            background-color: #333; /* Dark background for input */
-            color: white; /* White text color */
-            width: 100%; /* Full width */
-            max-width: 300px; /* Maximum width */
+            background-color: #6a0dad; /* Purple background */
+            color: white; /* White text for better contrast */
         }
         button {
-            padding: 10px 20px; /* Padding inside button */
-            font-size: 16px; /* Button font size */
-            background-color: #6c757d; /* Grey color background */
-            color: #fff; /* White text color */
-            border: none; /* Remove border */
-            border-radius: 4px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            transition: background-color 0.3s ease; /* Smooth background color transition */
+            background-color: #28a745; /* Green button */
+            color: white;
         }
         button:hover {
-            background-color: #221913; /* Darker grey color on hover */
+            background-color: #218838; /* Darker green on hover */
         }
-        #result {
-            margin-top: 20px; /* Margin above result text */
-            font-size: 18px; /* Result text font size */
-            color: white; /* White color for result text */
+        h1 {
+            color: #f8f9fa; /* Light color for the heading */
+        }
+        #stack-top {
+            font-weight: bold; /* Make the stack top display bold */
+        }
+        .note-box {
+            background-color: #d3e5b1; /* Pale lime green */
+            border: 1px solid #b3c999; /* Slightly darker border */
+            padding: 15px; /* Spacing inside the box */
+            margin: 20px 0; /* Spacing around the box */
+            border-radius: 5px; /* Rounded corners */
+            font-family: Arial, sans-serif; /* Font style */
+            color: black; /* Black text for better readability */
         }
         footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            background-color: #333; /* Grey footer */
-            color: #ccc; /* Light text */
-            padding: 10px; /* Padding for footer */
+            background-color: #6c757d; /* Grey footer */
+            color: white; /* White text in footer */
+            padding: 10px; /* Padding inside footer */
+            position: relative; /* Ensure footer stays at the bottom */
+            bottom: 0; /* Align footer at the bottom */
+            width: 100%; /* Full width */
         }
     </style>
 </head>
-<body>
-    <!-- Header section -->
-    <div class="header">
-        <h1>🧛🏻‍♂️ Stamp Duty Land Tax 🧛🏻‍♂️</h1>
-    </div>
+<body class="container text-center">
+    <h1 class="my-4">WASM Stack Machine Demo</h1>
     
-    <label for="income">Price:</label>
-    <input type="number" id="income" name="income" min="0">
-    <button id="calculateButton">Calculate UK Stamp Duty Tax</button>
-    <p id="result"></p>
+    <!-- Note Box -->
+    <div class="note-box">
+        <strong>Note:</strong> This is a pale lime green note box!
+    </div>
 
-    <!-- Footer -->
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button id="add" class="btn">Add</button>
+        <button id="sub" class="btn">Subtract</button>
+        <button id="push5" class="btn">Push 5</button>
+        <button id="push3" class="btn">Push 3</button>
+        <button id="pop" class="btn">Pop</button>
+    </div>
+    <p class="mt-4">Stack Top: <span id="stack-top">None</span></p>
+
     <footer>
-        Credit: <a href="https://github.com/BekBrace/rust-webass-tax" target="_blank" style="color: #ccc;">Bek Brace</a>
-        <br />
-        Check out: <a href="https://www.youtube.com/@learning_rust" target="_blank" style="color: #ccc;">Learning Rust on YouTube</a>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
     </footer>
 
     <script type="module">
-        import init, { calculate_sdlt } from "/wasm-sdlt/pkg/tax_calculator_wasm.js";
+        import init, { StackMachine } from "./pkg/wasm_stack_machine.js";
 
         async function run() {
-            await init(); // Initialize the WebAssembly module
+            await init(); // Load and initialize the WebAssembly module
 
-            function calculateTax() {
-                const income = parseFloat(document.getElementById("income").value); // Get and parse income input
-                const tax = calculate_sdlt(income); // Calculate tax using WebAssembly function
-                document.getElementById("result").innerText = `Tax: £${tax.toFixed(2)}`; // Display the result
+            // Create a new instance of the StackMachine
+            const machine = new StackMachine();
+
+            // Utility function to update the stack top display
+            function updateStackTop() {
+                const topValue = machine.peek();
+                document.getElementById("stack-top").textContent = topValue !== undefined ? topValue : "None";
             }
 
-            document.getElementById("calculateButton").addEventListener("click", calculateTax); // Add event listener to button
+            // Set up button event listeners
+            document.getElementById("add").addEventListener("click", () => {
+                machine.add();
+                updateStackTop();
+            });
+
+            document.getElementById("sub").addEventListener("click", () => {
+                machine.sub();
+                updateStackTop();
+            });
+
+            document.getElementById("push5").addEventListener("click", () => {
+                machine.push(5);
+                updateStackTop();
+            });
+
+            document.getElementById("push3").addEventListener("click", () => {
+                machine.push(3);
+                updateStackTop();
+            });
+
+            document.getElementById("pop").addEventListener("click", () => {
+                machine.pop();
+                updateStackTop();
+            });
+
+            // Initialize display
+            updateStackTop();
         }
 
-        run(); // Run the async function to set up event listener
+        run();
     </script>
 </body>
 </html>
+
 
